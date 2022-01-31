@@ -1,0 +1,17 @@
+O custo de um caminho é a ocupação do link que está mais ocupado
+
+critério: ir pelo caminho menos ocupado
+
+capacidade residual: aresta com a menor capacidade residual
+
+definir capacidade residual
+
+capacidade residual, então critério guloso
+maior capacidade residual
+
+-----------------------------------------------------------------
+
+Objetivos:
+
+balancear as capacidades nas arestas
+maximizar a capacidade residual
