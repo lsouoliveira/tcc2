@@ -316,7 +316,6 @@ class NetworkMonitor(app_manager.RyuApp):
             # Route flow through best path
             if best_available_bandwidth:
                 self.custom_install_flow(flow, best_path)
-                print('demand', flow.src)
 
     def calc_path_available_bandwidth(self, path):
         if path is None:
