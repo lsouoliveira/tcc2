@@ -15,9 +15,9 @@ set -o nounset
 
 ctrlc() {
 	killall python
-	killall -9 ryu-manager
-	mn -c
-	exit
+		killall -9 ryu-manager
+		mn -c
+		exit
 }
 
 trap ctrlc INT
@@ -31,8 +31,8 @@ trap ctrlc INT
 traffics="stag_0.2_0.3 stag_0.4_0.3 stag_0.6_0.2 stag_0.7_0.2"
 #traffics="stag_0.2_0.3 stag_0.3_0.3 stag_0.4_0.3 stag_0.5_0.3 stag_0.6_0.2 stag_0.7_0.2 stag_0.8_0.1"
 # Output directory.
-out_dir="./results"
-rm -f -r ./results
+out_dir="./results/result_${k}"
+rm -f -r $out_dir 
 mkdir -p $out_dir
 
 NUM_TRAFFICS=1
@@ -41,41 +41,41 @@ TOTAL_TRAFFICS=4
 # Run experiments.
 for traffic in $traffics
 do
-  echo "EXPERIMENT $NUM_TRAFFICS/$TOTAL_TRAFFICS"
+echo "EXPERIMENT $NUM_TRAFFICS/$TOTAL_TRAFFICS"
 
-  NUM=1
-  NUM_TRAFFICS=$(expr $NUM_TRAFFICS + $NUM)
+NUM=1
+NUM_TRAFFICS=$(expr $NUM_TRAFFICS + $NUM)
 
-	# Create iperf peers.
-	sudo python ./../../exp_EFattree/create_peers.py --k $k --traffic $traffic --fnum $flows_num_per_host
+# Create iperf peers.
+	sudo python ./create_peers.py --k $k --traffic $traffic --fnum $flows_num_per_host
 	sleep 1
 
-  #echo "ECMP"
-	# ECMP
-	#dir=$out_dir/$traffic/ECMP
-	#mkdir -p $dir
-	#mn -c
-	#sudo python ./ecmp/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
-
-  #echo "Hedera"
-	# Hedera
-	#dir=$out_dir/$traffic/Hedera
-	#mkdir -p $dir
-	#mn -c
-	#sudo python ./Hedera/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
-
-  echo "GENETICO"
-	# Genetico
-	dir=$out_dir/$traffic/Genetico
+# ECMP
+	echo "ECMP"
+	dir=$out_dir/$traffic/ECMP
 	mkdir -p $dir
 	mn -c
-	sudo python ./genetico/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
+	time sudo python ./ecmp/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
 
-  #echo "GULOSO"
-	# Guloso
-	# dir=$out_dir/$traffic/Guloso
-	# mkdir -p $dir
-	# mn -c
-	# sudo python ./guloso/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
+# Hedera
+	echo "Hedera"
+	dir=$out_dir/$traffic/Hedera
+	mkdir -p $dir
+	mn -c
+	time sudo python ./Hedera/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
 
-done
+	#echo "GENETICO"
+	# Genetico
+	#dir=$out_dir/$traffic/Genetico
+	#mkdir -p $dir
+	#mn -c
+	#sudo python ./genetico/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
+
+# Guloso
+	echo "GULOSO"
+	dir=$out_dir/$traffic/Guloso
+	mkdir -p $dir
+	mn -c
+	time sudo python ./guloso/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
+
+	done
