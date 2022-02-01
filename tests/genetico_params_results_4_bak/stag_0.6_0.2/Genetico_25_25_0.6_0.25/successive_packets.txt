@@ -1,0 +1,150 @@
+PING 10.7.0.1 (10.7.0.1) 56(84) bytes of data.
+PING 10.7.0.2 (10.7.0.2) 56(84) bytes of data.
+PING 10.3.0.2 (10.3.0.2) 56(84) bytes of data.
+PING 10.8.0.1 (10.8.0.1) 56(84) bytes of data.
+PING 10.2.0.1 (10.2.0.1) 56(84) bytes of data.
+PING 10.2.0.1 (10.2.0.1) 56(84) bytes of data.
+PING 10.3.0.1 (10.3.0.1) 56(84) bytes of data.
+PING 10.3.0.2 (10.3.0.2) 56(84) bytes of data.
+PING 10.2.0.1 (10.2.0.1) 56(84) bytes of data.
+PING 10.8.0.1 (10.8.0.1) 56(84) bytes of data.
+PING 10.7.0.2 (10.7.0.2) 56(84) bytes of data.
+PING 10.8.0.1 (10.8.0.1) 56(84) bytes of data.
+PING 10.7.0.2 (10.7.0.2) 56(84) bytes of data.
+PING 10.3.0.1 (10.3.0.1) 56(84) bytes of data.
+PING 10.8.0.1 (10.8.0.1) 56(84) bytes of data.
+PING 10.3.0.1 (10.3.0.1) 56(84) bytes of data.
+PING 10.7.0.1 (10.7.0.1) 56(84) bytes of data.
+PING 10.7.0.1 (10.7.0.1) 56(84) bytes of data.
+PING 10.3.0.1 (10.3.0.1) 56(84) bytes of data.
+PING 10.8.0.1 (10.8.0.1) 56(84) bytes of data.
+PING 10.3.0.2 (10.3.0.2) 56(84) bytes of data.
+PING 10.2.0.1 (10.2.0.1) 56(84) bytes of data.
+PING 10.7.0.2 (10.7.0.2) 56(84) bytes of data.
+PING 10.2.0.1 (10.2.0.1) 56(84) bytes of data.
+PING 10.3.0.2 (10.3.0.2) 56(84) bytes of data.
+PING 10.7.0.1 (10.7.0.1) 56(84) bytes of data.
+PING 10.7.0.1 (10.7.0.1) 56(84) bytes of data.
+PING 10.3.0.2 (10.3.0.2) 56(84) bytes of data.
+PING 10.7.0.2 (10.7.0.2) 56(84) bytes of data.
+PING 10.3.0.1 (10.3.0.1) 56(84) bytes of data.
+
+--- 10.2.0.1 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30084ms
+rtt min/avg/max/mdev = 1.275/7.519/20.181/3.180 ms
+
+--- 10.3.0.1 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30081ms
+rtt min/avg/max/mdev = 0.055/7.174/18.616/3.659 ms
+
+--- 10.7.0.1 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30125ms
+rtt min/avg/max/mdev = 0.121/4.831/11.526/2.367 ms
+
+--- 10.3.0.2 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30158ms
+rtt min/avg/max/mdev = 0.063/4.739/13.487/2.445 ms
+
+--- 10.3.0.1 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30177ms
+rtt min/avg/max/mdev = 0.043/5.093/18.293/3.559 ms
+
+--- 10.8.0.1 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30216ms
+rtt min/avg/max/mdev = 0.055/4.899/20.985/3.348 ms
+
+
+--- 10.3.0.1 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30213ms
+rtt min/avg/max/mdev = 0.049/4.057/16.723/3.031 ms
+--- 10.7.0.1 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30222ms
+rtt min/avg/max/mdev = 0.056/4.204/15.703/3.172 ms
+
+
+--- 10.3.0.1 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30252ms
+rtt min/avg/max/mdev = 0.041/3.732/15.518/3.109 ms
+--- 10.7.0.2 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30252ms
+rtt min/avg/max/mdev = 0.029/3.895/15.949/3.017 ms
+
+--- 10.3.0.2 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30305ms
+rtt min/avg/max/mdev = 0.022/3.153/15.633/2.683 ms
+
+--- 10.8.0.1 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30295ms
+rtt min/avg/max/mdev = 0.049/2.833/8.210/1.870 ms
+
+--- 10.2.0.1 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30327ms
+rtt min/avg/max/mdev = 0.050/2.550/10.522/1.869 ms
+
+--- 10.8.0.1 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30364ms
+rtt min/avg/max/mdev = 0.029/1.932/6.674/1.397 ms
+
+--- 10.7.0.1 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30359ms
+rtt min/avg/max/mdev = 0.034/2.105/7.294/1.603 ms
+
+--- 10.3.0.1 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30380ms
+rtt min/avg/max/mdev = 0.027/3.249/17.055/2.905 ms
+
+--- 10.2.0.1 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30442ms
+rtt min/avg/max/mdev = 0.049/2.157/7.721/1.783 ms
+
+--- 10.8.0.1 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30486ms
+rtt min/avg/max/mdev = 0.033/1.730/5.186/1.339 ms
+
+--- 10.7.0.2 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30488ms
+rtt min/avg/max/mdev = 0.035/1.709/5.617/1.462 ms
+
+--- 10.2.0.1 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30519ms
+rtt min/avg/max/mdev = 0.041/1.837/7.127/1.525 ms
+
+--- 10.7.0.1 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30519ms
+rtt min/avg/max/mdev = 0.049/2.049/8.016/1.743 ms
+
+--- 10.3.0.2 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30512ms
+rtt min/avg/max/mdev = 0.037/1.894/12.992/2.152 ms
+
+--- 10.7.0.2 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30532ms
+rtt min/avg/max/mdev = 0.045/2.002/7.650/1.746 ms
+
+--- 10.3.0.2 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30533ms
+rtt min/avg/max/mdev = 0.039/1.969/13.632/2.285 ms
+
+--- 10.2.0.1 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30556ms
+rtt min/avg/max/mdev = 0.036/2.045/15.088/2.419 ms
+
+--- 10.8.0.1 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 30553ms
+rtt min/avg/max/mdev = 0.035/1.938/16.699/2.323 ms
+
+--- 10.7.0.1 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 31003ms
+rtt min/avg/max/mdev = 0.020/0.635/5.228/0.858 ms
+
+--- 10.7.0.2 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 31037ms
+rtt min/avg/max/mdev = 0.025/0.728/4.933/0.947 ms
+
+--- 10.7.0.2 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 31056ms
+rtt min/avg/max/mdev = 0.028/1.075/13.835/2.286 ms
+
+--- 10.3.0.2 ping statistics ---
+300 packets transmitted, 300 received, 0% packet loss, time 31138ms
+rtt min/avg/max/mdev = 0.039/1.086/12.290/2.186 ms
