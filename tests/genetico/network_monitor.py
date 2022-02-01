@@ -364,8 +364,8 @@ class NetworkMonitor(app_manager.RyuApp):
                 agg_switches=self.agg_switches,
                 fattree=self.graph,
                 max_capacity=100000,
-                generations=10,
-                population_size=10,
+                generations=100,
+                population_size=100,
                 crossover_probability=0.6,
                 mutation_probability=0.25,
                 edge_switch_map=self.edge_switch_map

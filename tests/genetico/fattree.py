@@ -103,7 +103,7 @@ class Fattree(Topo):
 				PREFIX = "h00"
 			self.HostList.append(self.addHost(PREFIX + str(i), cpu=args.cpu/float(NUMBER)))
 
-	def createLinks(self, bw_c2a=1000, bw_a2e=1000, bw_e2h=1000):
+	def createLinks(self, bw_c2a=100, bw_a2e=100, bw_e2h=100):
 		"""
 			Add network links.
 		"""
@@ -353,7 +353,7 @@ def traffic_generation(net, topo, flows_peers):
 	os.system('killall bwm-ng')
 	os.system('killall iperf')
 
-def run_experiment(pod, density, ip="0.0.0.0", port=6653, bw_c2a=1000, bw_a2e=1000, bw_e2h=1000):
+def run_experiment(pod, density, ip="127.0.0.1", port=6653, bw_c2a=100, bw_a2e=100, bw_e2h=100):
 	"""
 		Firstly, start up Mininet;
 		secondly, start up Ryu controller;
