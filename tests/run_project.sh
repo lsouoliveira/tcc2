@@ -51,19 +51,19 @@ do
 sudo python ./create_peers.py --k $k --traffic $traffic --fnum $flows_num_per_host
 sleep 1
 
-# ECMP
-echo "ECMP"
-dir=$out_dir/$traffic/ECMP
-mkdir -p $dir
-mn -c
-time sudo python ./ecmp/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
-
-# Hedera
-echo "Hedera"
-dir=$out_dir/$traffic/Hedera
-mkdir -p $dir
-mn -c
-time sudo python ./Hedera/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
+## ECMP
+#echo "ECMP"
+#dir=$out_dir/$traffic/ECMP
+#mkdir -p $dir
+#mn -c
+#time sudo python ./ecmp/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
+#
+## Hedera
+#echo "Hedera"
+#dir=$out_dir/$traffic/Hedera
+#mkdir -p $dir
+#mn -c
+#time sudo python ./Hedera/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
 
   #echo "GENETICO"
   # Genetico
