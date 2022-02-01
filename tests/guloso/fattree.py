@@ -103,7 +103,7 @@ class Fattree(Topo):
 				PREFIX = "h00"
 			self.HostList.append(self.addHost(PREFIX + str(i), cpu=args.cpu/float(NUMBER)))
 
-	def createLinks(self, bw_c2a=10, bw_a2e=10, bw_e2h=10):
+	def createLinks(self, bw_c2a=100, bw_a2e=100, bw_e2h=100):
 		"""
 			Add network links.
 		"""

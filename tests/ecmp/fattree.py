@@ -102,7 +102,7 @@ class Fattree(Topo):
 				PREFIX = "h00"
 			self.HostList.append(self.addHost(PREFIX + str(i), cpu=args.cpu/float(NUMBER)))
 
-	def createLinks(self, bw_c2a=1000, bw_a2e=1000, bw_e2h=1000):
+	def createLinks(self, bw_c2a=100, bw_a2e=100, bw_e2h=100):
 		"""
 			Add network links.
 		"""
@@ -114,7 +114,7 @@ class Fattree(Topo):
 					self.addLink(
 						self.CoreSwitchList[i*end+j],
 						self.AggSwitchList[x+i],
-						bw=bw_c2a, max_queue_size=10)   # use_htb=False
+						bw=bw_c2a, max_queue_size=1000)   # use_htb=False
 
 		# Agg to Edge
 		for x in xrange(0, self.iAggLayerSwitch, end):
@@ -122,7 +122,7 @@ class Fattree(Topo):
 				for j in xrange(0, end):
 					self.addLink(
 						self.AggSwitchList[x+i], self.EdgeSwitchList[x+j],
-						bw=bw_a2e, max_queue_size=10)   # use_htb=False
+						bw=bw_a2e, max_queue_size=1000)   # use_htb=False
 
 		# Edge to Host
 		for x in xrange(0, self.iEdgeLayerSwitch):
@@ -130,7 +130,7 @@ class Fattree(Topo):
 				self.addLink(
 					self.EdgeSwitchList[x],
 					self.HostList[self.density * x + i],
-					bw=bw_e2h, max_queue_size=10)   # use_htb=False
+					bw=bw_e2h, max_queue_size=1000)   # use_htb=False
 
 	def set_ovs_protocol_13(self,):
 		"""
@@ -287,7 +287,7 @@ def monitor_devs_ng(fname="./txrate.txt", interval_sec=0.1):
 	cmd = "sleep 1; bwm-ng -t %s -o csv -u bits -T rate -C ',' > %s" %  (interval_sec * 1000, fname)
 	Popen(cmd, shell=True).wait()
 
-def traffic_generation(net, topo, flows_peers, bw):
+def traffic_generation(net, topo, flows_peers):
 	"""
 		Generate traffics and test the performance of the network.
 	"""
@@ -335,8 +335,6 @@ def traffic_generation(net, topo, flows_peers, bw):
 			if client != server:
 				client.cmd("ping -c %d -i 0.1 -n -q %s >> %s/%s &" % (args.duration*10, server.IP(), args.output_dir, 'successive_packets.txt'))
 
-	end = time.time()
-
 	# 4. The experiment is going on.
 	time.sleep(args.duration + 5)
 
@@ -345,7 +343,7 @@ def traffic_generation(net, topo, flows_peers, bw):
 	os.system('killall bwm-ng')
 	os.system('killall iperf')
 
-def run_experiment(pod, density, ip="0.0.0.0", port=6653, bw_c2a=100, bw_a2e=100, bw_e2h=100):
+def run_experiment(pod, density, ip="127.0.0.1", port=6653, bw_c2a=100, bw_a2e=100, bw_e2h=100):
 	"""
 		Firstly, start up Mininet;
 		secondly, generate traffics and test the performance of the network.
@@ -374,7 +372,7 @@ def run_experiment(pod, density, ip="0.0.0.0", port=6653, bw_c2a=100, bw_a2e=100
 	time.sleep(5)
 
 	# 2. Generate traffics and test the performance of the network.
-	traffic_generation(net, topo, iperf_peers.iperf_peers, bw_a2e)
+	traffic_generation(net, topo, iperf_peers.iperf_peers)
 
 	# CLI(net)
 	net.stop()
