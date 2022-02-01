@@ -51,12 +51,12 @@ do
 sudo python ./create_peers.py --k $k --traffic $traffic --fnum $flows_num_per_host
 sleep 1
 
-# ECMP
+ ECMP
 #echo "ECMP"
-#dir=$out_dir/$traffic/ECMP
-#mkdir -p $dir
-#mn -c
-#time sudo python ./ecmp/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
+dir=$out_dir/$traffic/ECMP
+mkdir -p $dir
+mn -c
+time sudo python ./ecmp/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
 
 # Hedera
 echo "Hedera"
