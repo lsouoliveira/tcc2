@@ -26,6 +26,6 @@ MONITOR_PERIOD = 2   # For monitoring traffic
 
 TOSHOW = False	   # For showing information in terminal
 
-MAX_CAPACITY = 100000   # Max capacity of link, Kbit/s
+MAX_CAPACITY = 10000   # Max capacity of link, Kbit/s
 
 get_topology_delay = 30

@@ -28,7 +28,8 @@ trap ctrlc INT
 # and 50% between different Pods.
 # "random" means choosing the iperf server randomly.
 # Change it if needed.
-traffics="stag_0.2_0.3 stag_0.4_0.3 stag_0.6_0.2 stag_0.7_0.2"
+#traffics="stag_0.2_0.3 stag_0.4_0.3 stag_0.6_0.2 stag_0.7_0.2"
+traffics="stag1_0.2_0.3"
 #traffics="stag_0.2_0.3 stag_0.3_0.3 stag_0.4_0.3 stag_0.5_0.3 stag_0.6_0.2 stag_0.7_0.2 stag_0.8_0.1"
 # Output directory.
 out_dir="./results"
@@ -47,15 +48,15 @@ do
   NUM_TRAFFICS=$(expr $NUM_TRAFFICS + $NUM)
 
 	# Create iperf peers.
-	sudo python ./../../exp_EFattree/create_peers.py --k $k --traffic $traffic --fnum $flows_num_per_host
+	sudo python ./create_peers.py --k $k --traffic $traffic --fnum $flows_num_per_host
 	sleep 1
 
-  #echo "ECMP"
+  echo "ECMP"
 	# ECMP
-	#dir=$out_dir/$traffic/ECMP
-	#mkdir -p $dir
-	#mn -c
-	#sudo python ./ecmp/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
+	dir=$out_dir/$traffic/ECMP
+	mkdir -p $dir
+	mn -c
+	sudo python ./ecmp/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
 
   #echo "Hedera"
 	# Hedera
@@ -64,12 +65,12 @@ do
 	#mn -c
 	#sudo python ./Hedera/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
 
-  echo "GENETICO"
+  #echo "GENETICO"
 	# Genetico
-	dir=$out_dir/$traffic/Genetico
-	mkdir -p $dir
-	mn -c
-	sudo python ./genetico/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
+	#dir=$out_dir/$traffic/Genetico
+	#mkdir -p $dir
+	#mn -c
+	#sudo python ./genetico/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
 
   #echo "GULOSO"
 	# Guloso
