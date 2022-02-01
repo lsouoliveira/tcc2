@@ -51,8 +51,8 @@ do
 sudo python ./create_peers.py --k $k --traffic $traffic --fnum $flows_num_per_host
 sleep 1
 
- ECMP
-#echo "ECMP"
+# ECMP
+echo "ECMP"
 dir=$out_dir/$traffic/ECMP
 mkdir -p $dir
 mn -c
