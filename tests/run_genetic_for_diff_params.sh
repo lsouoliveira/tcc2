@@ -58,7 +58,7 @@ do
   echo "--------------------"
 
   NUM_TRAFFICS=1
-  TOTAL_TRAFFICS=4
+  TOTAL_TRAFFICS=8
 
   # Run experiments.
   for traffic in $traffics
