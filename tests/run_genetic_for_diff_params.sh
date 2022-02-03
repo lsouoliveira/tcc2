@@ -65,6 +65,8 @@ do
   do
     echo "EXPERIMENT $NUM_TRAFFICS/$TOTAL_TRAFFICS"
 
+		echo "$(date) Genetico ${geracao} ${p} ${c} ${mut} - $traffic" >> logs.txt
+
     NUM=1
     NUM_TRAFFICS=$(expr $NUM_TRAFFICS + $NUM)
 
@@ -88,3 +90,6 @@ do
 done
 
 echo $(date)
+
+echo "$(date) Iniciando results 4" >> logs.txt
+sudo ./run_project.sh 4 16 1 60

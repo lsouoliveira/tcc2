@@ -36,8 +36,8 @@ out_dir="./results/result_${k}"
 rm -f -r $out_dir 
 mkdir -p $out_dir
 
-NUM_TRAFFICS=1
-TOTAL_TRAFFICS=4
+NUM_TRAFFICS=0
+TOTAL_TRAFFICS=8
 
 # Run experiments.
 for traffic in $traffics
@@ -46,6 +46,9 @@ do
 
 NUM=1
 NUM_TRAFFICS=$(expr $NUM_TRAFFICS + $NUM)
+
+
+echo "$(date) $traffic $NUM_TRAFFICS / $TOTAL_TRAFFICS" >> logs.txt
 
 # Create iperf peers.
 sudo python ./create_peers.py --k $k --traffic $traffic --fnum $flows_num_per_host
@@ -80,3 +83,7 @@ mn -c
 sudo python ./guloso/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
 
 done
+
+
+echo "$(date) Iniciando results 8" >> logs.txt
+sudo ./run_project.sh 8 16 1 60
