@@ -371,7 +371,7 @@ average_delay = {
             average_delay = get_delay(average_delay, traffic, keys2, app, successive_packets_file)
 
     for traffic_index in range(len(traffics_brief)):
-        traffic = traffics[traffic_index]
+        traffic = traffics_brief[traffic_index]
         csv_output = ""
 
         csv_output += 'Gerações,População,Probabilidade de crossover,Probabilidade de mutação,Taxa de transferência média,Taxa de transferência total normalizada,Taxa de perda de pacotes média,Latência bidirecional média\n'
