@@ -1,0 +1,8 @@
+Gerações,População,Probabilidade de crossover,Probabilidade de mutação,Taxa de transferência média,Taxa de transferência total normalizada,Taxa de perda de pacotes média,Latência bidirecional média
+100,100,0.6,0.25,770.293,0.481,0.00103,52.719
+100,25,0.6,0.25,816.446,0.510,0.00073,47.1788
+100,10,0.6,0.25,912.361,0.570,0.00026,68.8722
+50,50,0.6,0.25,776.247,0.485,0.00093,54.2366
+50,25,0.6,0.25,746.163,0.466,0.00016,38.9237
+25,50,0.6,0.25,631.219,0.395,0.00013,18.5717
+25,25,0.6,0.25,666.634,0.417,0.00015,32.0407

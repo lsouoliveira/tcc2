@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Copyright (C) 2016 Huang MaChi at Chongqing University
 # of Posts and Telecommunications, Chongqing, China.
 #
@@ -26,7 +27,9 @@ parser.add_argument('--duration', dest='duration', type=int, default=60, help="D
 parser.add_argument('--dir', dest='out_dir', help="Directory to store outputs")
 args = parser.parse_args()
 
-TOTAL = 4
+apps = []
+
+SINGLE_TRAFFIC_COUNT = 2
 
 def read_file_1(file_name, delim=','):
     """
@@ -63,9 +66,6 @@ def read_file_2(file_name):
     return lines_list
 
 def calculate_average(value_list):
-    if len(value_list) == 0:
-        return 0
-
     average_value = sum(map(float, value_list)) / len(value_list)
     return average_value
 
@@ -96,16 +96,17 @@ def get_throughput(throughput, traffic, app, input_file):
                 ...
                 }
     """
-    full_bisection_bw = 10.0 * (args.k ** 3 / 4)   # (unit: Mbit/s)
+    global apps
+
+    full_bisection_bw = 100.0 * (args.k ** 3 / 4)   # (unit: Mbit/s)
     lines_list = read_file_1(input_file)
-    #first_second = int(lines_list[0][0]) :FIX:
-    first_second = int(float(lines_list[0][0]))
+    first_second = int(lines_list[0][0])
     column_bytes_out_rate = 2   # bytes_out/s
     column_bytes_out = 6   # bytes_out
 
     if app == 'NonBlocking':
         switch = '1001'
-    elif app in ['ECMP', 'Hedera', 'Guloso', 'Genetico']:
+    elif app in apps:
         switch = '3[0-9][0-9][0-9]'
     else:
         pass
@@ -146,17 +147,14 @@ def get_throughput(throughput, traffic, app, input_file):
             if switch == '3[0-9][0-9][0-9]':
                 if sw.match(iface_name):
                     if int(iface_name[-1]) > args.k / 2:   # Choose down-going interfaces only.
-                        #if (int(row[0]) - first_second) <= args.duration:   # Take the good values only. :FIX:
-                        if (int(float(row[0])) - first_second) <= args.duration:   # Take the good values only.
-                            #throughput[traffic]['realtime_bisection_bw'][app][int(row[0]) - first_second] += float(row[column_bytes_out_rate]) * 8.0 / (10 ** 6)   # Mbit/s :FIX:
-                            throughput[traffic]['realtime_bisection_bw'][app][int(float(row[0])) - first_second] += float(row[column_bytes_out_rate]) * 8.0 / (10 ** 6)   # Mbit/s
-                            #throughput[traffic]['realtime_throughput'][app][int(row[0]) - first_second] += float(row[column_bytes_out]) * 8.0 / (10 ** 6)   # Mbit :FIX:
-                            throughput[traffic]['realtime_throughput'][app][int(float(row[0])) - first_second] += float(row[column_bytes_out]) * 8.0 / (10 ** 6)   # Mbit
+                        if (int(row[0]) - first_second) <= args.duration:   # Take the good values only.
+                            throughput[traffic]['realtime_bisection_bw'][app][int(row[0]) - first_second] += float(row[column_bytes_out_rate]) * 8.0 / (10 ** 6)   # Mbit/s
+                            throughput[traffic]['realtime_throughput'][app][int(row[0]) - first_second] += float(row[column_bytes_out]) * 8.0 / (10 ** 6)   # Mbit
             elif switch == '1001':   # Choose all the interfaces. (For NonBlocking Topo only)
                 if sw.match(iface_name):
                     if (int(row[0]) - first_second) <= args.duration:
-                        throughput[traffic]['realtime_bisection_bw'][app][int(float(row[0])) - first_second] += float(row[column_bytes_out_rate]) * 8.0 / (10 ** 6)   # Mbit/s
-                        throughput[traffic]['realtime_throughput'][app][int(float(row[0])) - first_second] += float(row[column_bytes_out]) * 8.0 / (10 ** 6)   # Mbit
+                        throughput[traffic]['realtime_bisection_bw'][app][int(row[0]) - first_second] += float(row[column_bytes_out_rate]) * 8.0 / (10 ** 6)   # Mbit/s
+                        throughput[traffic]['realtime_throughput'][app][int(row[0]) - first_second] += float(row[column_bytes_out]) * 8.0 / (10 ** 6)   # Mbit
             else:
                 pass
 
@@ -185,8 +183,8 @@ def get_average_bisection_bw(value_dict, traffics, app):
         complete_list.append(value_dict[traffic]['accumulated_throughput'][app][args.duration] / float(args.duration))
         accumulated_throughput.append(value_dict[traffic]['accumulated_throughput'][app][args.duration])
     # print "accumulated_throughput:", accumulated_throughput
-    for i in xrange(1): #:fix: 4 -> 1
-        value_list.append(calculate_average(complete_list[(i * TOTAL): (i * TOTAL + TOTAL)]))
+    for i in xrange(4):
+        value_list.append(calculate_average(complete_list[(i * SINGLE_TRAFFIC_COUNT): (i * SINGLE_TRAFFIC_COUNT + SINGLE_TRAFFIC_COUNT)]))
     return value_list
 
 def get_value_list_2(value_dict, traffics, item, app):
@@ -198,7 +196,7 @@ def get_value_list_2(value_dict, traffics, item, app):
     for traffic in traffics:
         complete_list.append(value_dict[traffic][item][app])
     for i in xrange(4):
-        value_list.append(calculate_average([complete_list[i]])) # :FIX:
+        value_list.append(calculate_average(complete_list[(i * SINGLE_TRAFFIC_COUNT): (i * SINGLE_TRAFFIC_COUNT + SINGLE_TRAFFIC_COUNT)]))
     return value_list
 
 def get_value_list_3(value_dict, traffics, items, app):
@@ -212,7 +210,7 @@ def get_value_list_3(value_dict, traffics, items, app):
         send_list.append(value_dict[traffic][items[0]][app])
         receive_list.append(value_dict[traffic][items[1]][app])
     for i in xrange(4):
-        value_list.append((sum([send_list[i]]) - sum([receive_list[i]])) / float(sum([send_list[i]])))
+        value_list.append((sum(send_list[(i * SINGLE_TRAFFIC_COUNT): (i * SINGLE_TRAFFIC_COUNT + SINGLE_TRAFFIC_COUNT)]) - sum(receive_list[(i * SINGLE_TRAFFIC_COUNT): (i * SINGLE_TRAFFIC_COUNT + SINGLE_TRAFFIC_COUNT)])) / float(sum(send_list[(i * SINGLE_TRAFFIC_COUNT): (i * SINGLE_TRAFFIC_COUNT + SINGLE_TRAFFIC_COUNT)])))
 
     return value_list
 
@@ -327,44 +325,39 @@ def plot_results():
                     },
                 ...
                 }
-
-        average_delay = {
-                'stag1_0.5_0.3':
-                {
-                    'average_round_trip_delay': {'EFattree':x, 'ECMP':x, ...},
-                    'packet_loss_rate': {'EFattree':x%, 'ECMP':x%, ...},
-                    'mean_deviation_of_round_trip_delay': {'EFattree':x%, 'ECMP':x%, ...},
-                    },
-                'stag1_0.5_0.3':
-                {
-                    'average_round_trip_delay': {'EFattree':x, 'ECMP':x, ...},
-                    'packet_loss_rate': {'EFattree':x%, 'ECMP':x%, ...},
-                    'mean_deviation_of_round_trip_delay': {'EFattree':x%, 'ECMP':x%, ...},
-                    },
-                ...
-                }
-    """
-    full_bisection_bw = 10.0 * (args.k ** 3 / 4)   # (unit: Mbit/s)
+average_delay = {
+        'stag1_0.5_0.3':
+        {
+            'average_round_trip_delay': {'EFattree':x, 'ECMP':x, ...},
+            'packet_loss_rate': {'EFattree':x%, 'ECMP':x%, ...},
+            'mean_deviation_of_round_trip_delay': {'EFattree':x%, 'ECMP':x%, ...},
+            },
+        'stag1_0.5_0.3':
+        {
+            'average_round_trip_delay': {'EFattree':x, 'ECMP':x, ...},
+            'packet_loss_rate': {'EFattree':x%, 'ECMP':x%, ...},
+            'mean_deviation_of_round_trip_delay': {'EFattree':x%, 'ECMP':x%, ...},
+            },
+        ...
+        }
+"""
+    global apps
+    full_bisection_bw = 100.0 * (args.k ** 3 / 4)   # (unit: Mbit/s)
     utmost_throughput = full_bisection_bw * args.duration
     # _traffics = "stag1_0.5_0.3 stag2_0.5_0.3 stag1_0.6_0.2 stag2_0.6_0.2 stag1_0.7_0.2 stag2_0.7_0.2 stag1_0.8_0.1 stag2_0.8_0.1"
-    #_traffics = "stag1_0.5_0.3 stag2_0.5_0.3 stag3_0.5_0.3 stag4_0.5_0.3 stag5_0.5_0.3 stag6_0.5_0.3 stag7_0.5_0.3 stag8_0.5_0.3 stag9_0.5_0.3 stag10_0.5_0.3 stag11_0.5_0.3 stag12_0.5_0.3 stag13_0.5_0.3 stag14_0.5_0.3 stag15_0.5_0.3 stag16_0.5_0.3 stag17_0.5_0.3 stag18_0.5_0.3 stag19_0.5_0.3 stag20_0.5_0.3 stag1_0.6_0.2 stag2_0.6_0.2 stag3_0.6_0.2 stag4_0.6_0.2 stag5_0.6_0.2 stag6_0.6_0.2 stag7_0.6_0.2 stag8_0.6_0.2 stag9_0.6_0.2 stag10_0.6_0.2 stag11_0.6_0.2 stag12_0.6_0.2 stag13_0.6_0.2 stag14_0.6_0.2 stag15_0.6_0.2 stag16_0.6_0.2 stag17_0.6_0.2 stag18_0.6_0.2 stag19_0.6_0.2 stag20_0.6_0.2 stag1_0.7_0.2 stag2_0.7_0.2 stag3_0.7_0.2 stag4_0.7_0.2 stag5_0.7_0.2 stag6_0.7_0.2 stag7_0.7_0.2 stag8_0.7_0.2 stag9_0.7_0.2 stag10_0.7_0.2 stag11_0.7_0.2 stag12_0.7_0.2 stag13_0.7_0.2 stag14_0.7_0.2 stag15_0.7_0.2 stag16_0.7_0.2 stag17_0.7_0.2 stag18_0.7_0.2 stag19_0.7_0.2 stag20_0.7_0.2 stag1_0.8_0.1 stag2_0.8_0.1 stag3_0.8_0.1 stag4_0.8_0.1 stag5_0.8_0.1 stag6_0.8_0.1 stag7_0.8_0.1 stag8_0.8_0.1 stag9_0.8_0.1 stag10_0.8_0.1 stag11_0.8_0.1 stag12_0.8_0.1 stag13_0.8_0.1 stag14_0.8_0.1 stag15_0.8_0.1 stag16_0.8_0.1 stag17_0.8_0.1 stag18_0.8_0.1 stag19_0.8_0.1 stag20_0.8_0.1"
-    _traffics = "stag_0.2_0.3 stag_0.4_0.3 stag_0.6_0.2 stag_0.7_0.2"
+    _traffics = "stag1_0.2_0.3 stag2_0.2_0.3 stag1_0.4_0.3 stag2_0.4_0.3 stag1_0.6_0.2 stag2_0.6_0.2 stag1_0.7_0.2 stag2_0.7_0.2"
     traffics = _traffics.split(' ')
-    #traffics_brief = ['stag_0.5_0.3', 'stag_0.6_0.2', 'stag_0.7_0.2', 'stag_0.8_0.1']
     traffics_brief = ['stag_0.2_0.3', 'stag_0.4_0.3', 'stag_0.6_0.2', 'stag_0.7_0.2']
-    #apps = ['EFattree', 'ECMP', 'PureSDN', 'Hedera']
-    #apps = ['Genetico']
     throughput = {}
     first_packet_delay = {}
     average_delay = {}
 
-
     geracoes=[100, 100, 100, 50, 50, 25, 25]
-    populacao=[50, 25, 10, 50, 25, 50, 25]
+    populacao=[100, 25, 10, 50, 25, 50, 25]
     crossover=[0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
-    mutacao[0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25]
+    mutacao=[0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25]
 
-    apps = ['Genetico_%d_%d_%f_%f' % (geracoes[i], populacao[i], crossover[i], mutacao[i]) for i in range(len(geracoes)] 
+    apps = ['Genetico_%d_%d_%g_%g' % (geracoes[i], populacao[i], crossover[i], mutacao[i]) for i in range(len(geracoes))] 
 
     for traffic in traffics:
         for app in apps:
@@ -377,20 +370,58 @@ def plot_results():
             successive_packets_file = args.out_dir + '/%s/%s/successive_packets.txt' % (traffic, app)
             average_delay = get_delay(average_delay, traffic, keys2, app, successive_packets_file)
 
-    print(apps)
+    for traffic_index in range(len(traffics_brief)):
+        traffic = traffics[traffic_index]
+        csv_output = ""
 
+        csv_output += 'Gerações,População,Probabilidade de crossover,Probabilidade de mutação,Taxa de transferência média,Taxa de transferência total normalizada,Taxa de perda de pacotes média,Latência bidirecional média\n'
+
+        for i in range(len(apps)):
+            app = apps[i]
+
+            taxa_de_transferencia = get_average_bisection_bw(throughput, traffics, app)
+
+            item = 'normalized_total_throughput'
+            taxa_de_transferencia_normalizada = get_value_list_2(throughput, traffics, item, app)
+
+            items = ['total_send', 'total_receive']
+            taxa_de_perda_de_pacotes = get_value_list_3(average_delay, traffics, items, app)
+
+            item = 'average_round_trip_delay'
+            latencia = get_value_list_2(average_delay, traffics, item, app)
+
+            csv_output += '%d,%d,%g,%g,%.3f,%.3f,%.5f,%g' % (
+                    geracoes[i],
+                    populacao[i],
+                    crossover[i],
+                    mutacao[i],
+                    taxa_de_transferencia[traffic_index],
+                    taxa_de_transferencia_normalizada[traffic_index],
+                    taxa_de_perda_de_pacotes[traffic_index],
+                    latencia[traffic_index]
+            ) + '\n'
+
+        with open('%s/%s.csv' % (args.out_dir, traffic), 'w') as f:
+            f.write(csv_output)
+            
+
+
+    """ PLOT
     # 1. Plot average throughput.
-    # average_throughput_value_list = get_average_bisection_bw(throughput, traffics, 'ECMP')
-
-    """
-    #PureSDN_value_list = get_average_bisection_bw(throughput, traffics, 'PureSDN')
+    fig = plt.figure()
+    fig.set_size_inches(10, 5)
+    num_groups = len(traffics_brief)
+    num_bar = len(apps)
+    EFattree_value_list = get_average_bisection_bw(throughput, traffics, 'EFattree')
+    ECMP_value_list = get_average_bisection_bw(throughput, traffics, 'ECMP')
+    Hedera_value_list = get_average_bisection_bw(throughput, traffics, 'Hedera')
+    PureSDN_value_list = get_average_bisection_bw(throughput, traffics, 'PureSDN')
     index = np.arange(num_groups) + 0.15
     bar_width = 0.15
-    #plt.bar(index + 0 * bar_width, EFattree_value_list, bar_width, color='r', label='EFattree')
-    plt.bar(index + 0 * bar_width, ECMP_value_list, bar_width, color='b', label='ECMP')
-    plt.bar(index + 1 * bar_width, Hedera_value_list, bar_width, color='r', label='Hedera')
-    plt.bar(index + 2 * bar_width, Guloso_value_list, bar_width, color='g', label='Guloso')
-    plt.bar(index + 3 * bar_width, Genetico_value_list, bar_width, color='c', label='Genetico')
+    plt.bar(index + 0 * bar_width, EFattree_value_list, bar_width, color='r', label='EFattree')
+    plt.bar(index + 1 * bar_width, ECMP_value_list, bar_width, color='b', label='ECMP')
+    plt.bar(index + 2 * bar_width, Hedera_value_list, bar_width, color='y', label='Hedera')
+    plt.bar(index + 3 * bar_width, PureSDN_value_list, bar_width, color='g', label='PureSDN')
     plt.xticks(index + num_bar / 2.0 * bar_width, traffics_brief, fontsize='large')
     plt.ylabel('Average Throughput\n(Mbps)', fontsize='x-large')
     plt.ylim(0, full_bisection_bw)
@@ -406,16 +437,16 @@ def plot_results():
     fig.set_size_inches(10, 5)
     num_groups = len(traffics_brief)
     num_bar = len(apps)
+    EFattree_value_list = get_value_list_2(throughput, traffics, item, 'EFattree')
     ECMP_value_list = get_value_list_2(throughput, traffics, item, 'ECMP')
     Hedera_value_list = get_value_list_2(throughput, traffics, item, 'Hedera')
-    Guloso_value_list = get_value_list_2(throughput, traffics, item, 'Guloso')
-    Genetico_value_list = get_value_list_2(throughput, traffics, item, 'Genetico')
+    PureSDN_value_list = get_value_list_2(throughput, traffics, item, 'PureSDN')
     index = np.arange(num_groups) + 0.15
     bar_width = 0.15
+    plt.bar(index + 0 * bar_width, EFattree_value_list, bar_width, color='r', label='EFattree')
     plt.bar(index + 1 * bar_width, ECMP_value_list, bar_width, color='b', label='ECMP')
-    plt.bar(index + 2 * bar_width, Hedera_value_list, bar_width, color='r', label='Hedera')
-    plt.bar(index + 3 * bar_width, Guloso_value_list, bar_width, color='g', label='Guloso')
-    plt.bar(index + 4 * bar_width, Genetico_value_list, bar_width, color='c', label='Genetico')
+    plt.bar(index + 2 * bar_width, Hedera_value_list, bar_width, color='y', label='Hedera')
+    plt.bar(index + 3 * bar_width, PureSDN_value_list, bar_width, color='g', label='PureSDN')
     plt.xticks(index + num_bar / 2.0 * bar_width, traffics_brief, fontsize='large')
     plt.ylabel('Normalized Total Throughput\n', fontsize='x-large')
     plt.ylim(0, 1)
@@ -425,22 +456,94 @@ def plot_results():
     plt.tight_layout()
     plt.savefig(args.out_dir + '/2.normalized_total_throughput.png')
 
+    # 3. Plot average first-packet round-trip delay of delay-sensitive traffic.
+    item = 'average_first_packet_round_trip_delay'
+    fig = plt.figure()
+    fig.set_size_inches(10, 5)
+    num_groups = len(traffics_brief)
+    num_bar = len(apps)
+    EFattree_value_list = get_value_list_2(first_packet_delay, traffics, item, 'EFattree')
+    PureSDN_value_list = get_value_list_2(first_packet_delay, traffics, item, 'PureSDN')
+    Hedera_value_list = get_value_list_2(first_packet_delay, traffics, item, 'Hedera')
+    ECMP_value_list = get_value_list_2(first_packet_delay, traffics, item, 'ECMP')
+    index = np.arange(num_groups) + 0.15
+    bar_width = 0.15
+    plt.bar(index, EFattree_value_list, bar_width, color='r', label='EFattree')
+    plt.bar(index + 1 * bar_width, PureSDN_value_list, bar_width, color='g', label='PureSDN')
+    plt.bar(index + 2 * bar_width, Hedera_value_list, bar_width, color='y', label='Hedera')
+    plt.bar(index + 3 * bar_width, ECMP_value_list, bar_width, color='b', label='ECMP')
+    plt.xticks(index + num_bar / 2.0 * bar_width, traffics_brief, fontsize='large')
+    plt.ylabel('Average First-packet Round-trip Delay\nof Delay-sensitive Traffic\n(ms)', fontsize='large')
+    plt.yticks(fontsize='large')
+    plt.legend(loc='upper right', ncol=len(apps), fontsize='small')
+    plt.grid(axis='y')
+    plt.tight_layout()
+    plt.savefig(args.out_dir + '/3.average_first_packet_round_trip_delay.png')
+
+    # 4. Plot first-packet loss rate of delay-sensitive traffic.
+    items = ['first_packet_total_send', 'first_packet_total_receive']
+    fig = plt.figure()
+    fig.set_size_inches(10, 5)
+    num_groups = len(traffics_brief)
+    num_bar = len(apps)
+    EFattree_value_list = get_value_list_3(first_packet_delay, traffics, items, 'EFattree')
+    PureSDN_value_list = get_value_list_3(first_packet_delay, traffics, items, 'PureSDN')
+    Hedera_value_list = get_value_list_3(first_packet_delay, traffics, items, 'Hedera')
+    ECMP_value_list = get_value_list_3(first_packet_delay, traffics, items, 'ECMP')
+    index = np.arange(num_groups) + 0.15
+    bar_width = 0.15
+    plt.bar(index, EFattree_value_list, bar_width, color='r', label='EFattree')
+    plt.bar(index + 1 * bar_width, PureSDN_value_list, bar_width, color='g', label='PureSDN')
+    plt.bar(index + 2 * bar_width, Hedera_value_list, bar_width, color='y', label='Hedera')
+    plt.bar(index + 3 * bar_width, ECMP_value_list, bar_width, color='b', label='ECMP')
+    plt.xticks(index + num_bar / 2.0 * bar_width, traffics_brief, fontsize='large')
+    plt.ylabel('First-packet Loss Rate of\nDelay-sensitive Traffic\n', fontsize='large')
+    plt.yticks(fontsize='large')
+    plt.legend(loc='upper right', ncol=len(apps), fontsize='small')
+    plt.grid(axis='y')
+    plt.tight_layout()
+    plt.savefig(args.out_dir + '/4.first_packet_loss_rate.png')
+
+    # 5. Plot average packet round-trip delay of delay-sensitive traffic.
+    item = 'average_round_trip_delay'
+    fig = plt.figure()
+    fig.set_size_inches(10, 5)
+    num_groups = len(traffics_brief)
+    num_bar = len(apps)
+    EFattree_value_list = get_value_list_2(average_delay, traffics, item, 'EFattree')
+    PureSDN_value_list = get_value_list_2(average_delay, traffics, item, 'PureSDN')
+    Hedera_value_list = get_value_list_2(average_delay, traffics, item, 'Hedera')
+    ECMP_value_list = get_value_list_2(average_delay, traffics, item, 'ECMP')
+    index = np.arange(num_groups) + 0.15
+    bar_width = 0.15
+    plt.bar(index, EFattree_value_list, bar_width, color='r', label='EFattree')
+    plt.bar(index + 1 * bar_width, PureSDN_value_list, bar_width, color='g', label='PureSDN')
+    plt.bar(index + 2 * bar_width, Hedera_value_list, bar_width, color='y', label='Hedera')
+    plt.bar(index + 3 * bar_width, ECMP_value_list, bar_width, color='b', label='ECMP')
+    plt.xticks(index + num_bar / 2.0 * bar_width, traffics_brief, fontsize='large')
+    plt.ylabel('Average Packet Round-trip Delay of\nDelay-sensitive Traffic\n(ms)', fontsize='large')
+    plt.yticks(fontsize='large')
+    plt.legend(loc='upper right', ncol=len(apps), fontsize='small')
+    plt.grid(axis='y')
+    plt.tight_layout()
+    plt.savefig(args.out_dir + '/5.average_round_trip_delay.png')
+
     # 6. Plot packet loss rate of delay-sensitive traffic.
     items = ['total_send', 'total_receive']
     fig = plt.figure()
     fig.set_size_inches(10, 5)
     num_groups = len(traffics_brief)
     num_bar = len(apps)
-    ECMP_value_list = get_value_list_3(average_delay, traffics, items, 'ECMP')
+    EFattree_value_list = get_value_list_3(average_delay, traffics, items, 'EFattree')
+    PureSDN_value_list = get_value_list_3(average_delay, traffics, items, 'PureSDN')
     Hedera_value_list = get_value_list_3(average_delay, traffics, items, 'Hedera')
-    Guloso_value_list = get_value_list_3(average_delay, traffics, items, 'Guloso')
-    Genetico_value_list = get_value_list_3(average_delay, traffics, items, 'Genetico')
+    ECMP_value_list = get_value_list_3(average_delay, traffics, items, 'ECMP')
     index = np.arange(num_groups) + 0.15
     bar_width = 0.15
-    plt.bar(index + 1 * bar_width, ECMP_value_list, bar_width, color='b', label='ECMP')
-    plt.bar(index + 2 * bar_width, Hedera_value_list, bar_width, color='r', label='Hedera')
-    plt.bar(index + 3 * bar_width, Guloso_value_list, bar_width, color='g', label='Guloso')
-    plt.bar(index + 4 * bar_width, Genetico_value_list, bar_width, color='c', label='Genetico')
+    plt.bar(index, EFattree_value_list, bar_width, color='r', label='EFattree')
+    plt.bar(index + 1 * bar_width, PureSDN_value_list, bar_width, color='g', label='PureSDN')
+    plt.bar(index + 2 * bar_width, Hedera_value_list, bar_width, color='y', label='Hedera')
+    plt.bar(index + 3 * bar_width, ECMP_value_list, bar_width, color='b', label='ECMP')
     plt.xticks(index + num_bar / 2.0 * bar_width, traffics_brief, fontsize='large')
     plt.ylabel('Packet Loss Rate of\nDelay-sensitive Traffic\n', fontsize='large')
     plt.yticks(fontsize='large')
@@ -449,30 +552,31 @@ def plot_results():
     plt.tight_layout()
     plt.savefig(args.out_dir + '/6.packet_loss_rate.png')
 
-    # 5. Plot average packet round-trip delay of delay-sensitive traffic.
-    item = 'average_round_trip_delay'
+    # 7. Plot mean deviation of round-trip delay of delay-sensitive traffic.
+    item = 'mean_deviation_of_round_trip_delay'
     fig = plt.figure()
     fig.set_size_inches(10, 5)
     num_groups = len(traffics_brief)
     num_bar = len(apps)
-    ECMP_value_list = get_value_list_2(average_delay, traffics, item, 'ECMP')
+    EFattree_value_list = get_value_list_2(average_delay, traffics, item, 'EFattree')
+    PureSDN_value_list = get_value_list_2(average_delay, traffics, item, 'PureSDN')
     Hedera_value_list = get_value_list_2(average_delay, traffics, item, 'Hedera')
-    Guloso_value_list = get_value_list_2(average_delay, traffics, item, 'Guloso')
-    Genetico_value_list = get_value_list_2(average_delay, traffics, item, 'Genetico')
+    ECMP_value_list = get_value_list_2(average_delay, traffics, item, 'ECMP')
     index = np.arange(num_groups) + 0.15
     bar_width = 0.15
-    plt.bar(index + 1 * bar_width, ECMP_value_list, bar_width, color='b', label='ECMP')
-    plt.bar(index + 2 * bar_width, Hedera_value_list, bar_width, color='r', label='Hedera')
-    plt.bar(index + 3 * bar_width, Guloso_value_list, bar_width, color='g', label='Guloso')
-    plt.bar(index + 4 * bar_width, Genetico_value_list, bar_width, color='c', label='Genetico')
+    plt.bar(index, EFattree_value_list, bar_width, color='r', label='EFattree')
+    plt.bar(index + 1 * bar_width, PureSDN_value_list, bar_width, color='g', label='PureSDN')
+    plt.bar(index + 2 * bar_width, Hedera_value_list, bar_width, color='y', label='Hedera')
+    plt.bar(index + 3 * bar_width, ECMP_value_list, bar_width, color='b', label='ECMP')
     plt.xticks(index + num_bar / 2.0 * bar_width, traffics_brief, fontsize='large')
-    plt.ylabel('Average Packet Round-trip Delay of\nDelay-sensitive Traffic\n(ms)', fontsize='large')
+    plt.ylabel('Mean Deviation of Round-trip Delay\nof Delay-sensitive Traffic\n(ms)', fontsize='large')
     plt.yticks(fontsize='large')
     plt.legend(loc='upper right', ncol=len(apps), fontsize='small')
     plt.grid(axis='y')
     plt.tight_layout()
-    plt.savefig(args.out_dir + '/5.average_round_trip_delay.png')
+    plt.savefig(args.out_dir + '/7.mean_deviation_of_round_trip_delay.png')
     """
+
 
 if __name__ == '__main__':
     plot_results()
