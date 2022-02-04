@@ -1,0 +1,87 @@
+Thu Feb  3 01:59:06 UTC 2022 Genetico 100 100 0.6 0.25 - stag1_0.2_0.3
+Thu Feb  3 02:02:23 UTC 2022 Genetico 100 100 0.6 0.25 - stag2_0.2_0.3
+Thu Feb  3 02:05:39 UTC 2022 Genetico 100 100 0.6 0.25 - stag1_0.4_0.3
+Thu Feb  3 02:08:54 UTC 2022 Genetico 100 100 0.6 0.25 - stag2_0.4_0.3
+Thu Feb  3 02:12:10 UTC 2022 Genetico 100 100 0.6 0.25 - stag1_0.5_0.3
+Thu Feb  3 02:15:25 UTC 2022 Genetico 100 100 0.6 0.25 - stag2_0.5_0.3
+Thu Feb  3 02:18:41 UTC 2022 Genetico 100 100 0.6 0.25 - random1
+Thu Feb  3 02:21:56 UTC 2022 Genetico 100 100 0.6 0.25 - random2
+Thu Feb  3 02:25:11 UTC 2022 Genetico 100 25 0.6 0.25 - stag1_0.2_0.3
+Thu Feb  3 02:28:27 UTC 2022 Genetico 100 25 0.6 0.25 - stag2_0.2_0.3
+Thu Feb  3 02:31:42 UTC 2022 Genetico 100 25 0.6 0.25 - stag1_0.4_0.3
+Thu Feb  3 02:34:58 UTC 2022 Genetico 100 25 0.6 0.25 - stag2_0.4_0.3
+Thu Feb  3 02:38:14 UTC 2022 Genetico 100 25 0.6 0.25 - stag1_0.5_0.3
+Thu Feb  3 02:41:29 UTC 2022 Genetico 100 25 0.6 0.25 - stag2_0.5_0.3
+Thu Feb  3 02:44:45 UTC 2022 Genetico 100 25 0.6 0.25 - random1
+Thu Feb  3 02:48:00 UTC 2022 Genetico 100 25 0.6 0.25 - random2
+Thu Feb  3 02:51:16 UTC 2022 Genetico 100 10 0.6 0.25 - stag1_0.2_0.3
+Thu Feb  3 02:54:31 UTC 2022 Genetico 100 10 0.6 0.25 - stag2_0.2_0.3
+Thu Feb  3 02:57:47 UTC 2022 Genetico 100 10 0.6 0.25 - stag1_0.4_0.3
+Thu Feb  3 03:01:02 UTC 2022 Genetico 100 10 0.6 0.25 - stag2_0.4_0.3
+Thu Feb  3 03:04:17 UTC 2022 Genetico 100 10 0.6 0.25 - stag1_0.5_0.3
+Thu Feb  3 03:07:33 UTC 2022 Genetico 100 10 0.6 0.25 - stag2_0.5_0.3
+Thu Feb  3 03:10:48 UTC 2022 Genetico 100 10 0.6 0.25 - random1
+Thu Feb  3 03:14:03 UTC 2022 Genetico 100 10 0.6 0.25 - random2
+Thu Feb  3 03:17:19 UTC 2022 Genetico 50 50 0.6 0.25 - stag1_0.2_0.3
+Thu Feb  3 03:20:34 UTC 2022 Genetico 50 50 0.6 0.25 - stag2_0.2_0.3
+Thu Feb  3 03:23:50 UTC 2022 Genetico 50 50 0.6 0.25 - stag1_0.4_0.3
+Thu Feb  3 03:27:05 UTC 2022 Genetico 50 50 0.6 0.25 - stag2_0.4_0.3
+Thu Feb  3 03:30:21 UTC 2022 Genetico 50 50 0.6 0.25 - stag1_0.5_0.3
+Thu Feb  3 03:33:36 UTC 2022 Genetico 50 50 0.6 0.25 - stag2_0.5_0.3
+Thu Feb  3 03:36:51 UTC 2022 Genetico 50 50 0.6 0.25 - random1
+Thu Feb  3 03:40:07 UTC 2022 Genetico 50 50 0.6 0.25 - random2
+Thu Feb  3 03:43:22 UTC 2022 Genetico 50 25 0.6 0.25 - stag1_0.2_0.3
+Thu Feb  3 03:46:37 UTC 2022 Genetico 50 25 0.6 0.25 - stag2_0.2_0.3
+Thu Feb  3 03:49:53 UTC 2022 Genetico 50 25 0.6 0.25 - stag1_0.4_0.3
+Thu Feb  3 03:53:08 UTC 2022 Genetico 50 25 0.6 0.25 - stag2_0.4_0.3
+Thu Feb  3 03:56:23 UTC 2022 Genetico 50 25 0.6 0.25 - stag1_0.5_0.3
+Thu Feb  3 03:59:38 UTC 2022 Genetico 50 25 0.6 0.25 - stag2_0.5_0.3
+Thu Feb  3 04:02:54 UTC 2022 Genetico 50 25 0.6 0.25 - random1
+Thu Feb  3 04:06:09 UTC 2022 Genetico 50 25 0.6 0.25 - random2
+Thu Feb  3 04:09:24 UTC 2022 Genetico 25 50 0.6 0.25 - stag1_0.2_0.3
+Thu Feb  3 04:12:40 UTC 2022 Genetico 25 50 0.6 0.25 - stag2_0.2_0.3
+Thu Feb  3 04:15:55 UTC 2022 Genetico 25 50 0.6 0.25 - stag1_0.4_0.3
+Thu Feb  3 04:19:10 UTC 2022 Genetico 25 50 0.6 0.25 - stag2_0.4_0.3
+Thu Feb  3 04:22:26 UTC 2022 Genetico 25 50 0.6 0.25 - stag1_0.5_0.3
+Thu Feb  3 04:25:41 UTC 2022 Genetico 25 50 0.6 0.25 - stag2_0.5_0.3
+Thu Feb  3 04:28:56 UTC 2022 Genetico 25 50 0.6 0.25 - random1
+Thu Feb  3 04:32:11 UTC 2022 Genetico 25 50 0.6 0.25 - random2
+Thu Feb  3 04:35:27 UTC 2022 Genetico 25 25 0.6 0.25 - stag1_0.2_0.3
+Thu Feb  3 04:38:42 UTC 2022 Genetico 25 25 0.6 0.25 - stag2_0.2_0.3
+Thu Feb  3 04:41:57 UTC 2022 Genetico 25 25 0.6 0.25 - stag1_0.4_0.3
+Thu Feb  3 04:45:13 UTC 2022 Genetico 25 25 0.6 0.25 - stag2_0.4_0.3
+Thu Feb  3 04:48:28 UTC 2022 Genetico 25 25 0.6 0.25 - stag1_0.5_0.3
+Thu Feb  3 04:51:43 UTC 2022 Genetico 25 25 0.6 0.25 - stag2_0.5_0.3
+Thu Feb  3 04:54:58 UTC 2022 Genetico 25 25 0.6 0.25 - random1
+Thu Feb  3 04:58:13 UTC 2022 Genetico 25 25 0.6 0.25 - random2
+Thu Feb  3 05:01:29 UTC 2022 Iniciando results 4
+Thu Feb  3 05:01:29 UTC 2022 stag1_0.2_0.3 1 / 8
+Thu Feb  3 05:10:16 UTC 2022 stag2_0.2_0.3 2 / 8
+Thu Feb  3 05:19:04 UTC 2022 stag1_0.4_0.3 3 / 8
+Thu Feb  3 05:27:52 UTC 2022 stag2_0.4_0.3 4 / 8
+Thu Feb  3 05:36:40 UTC 2022 stag1_0.5_0.3 5 / 8
+Thu Feb  3 05:45:27 UTC 2022 stag2_0.5_0.3 6 / 8
+Thu Feb  3 05:54:15 UTC 2022 random1 7 / 8
+Thu Feb  3 06:03:02 UTC 2022 random2 8 / 8
+Thu Feb  3 06:11:50 UTC 2022 Iniciando results 8
+Thu Feb  3 06:11:50 UTC 2022 stag1_0.2_0.3 1 / 8
+Thu Feb  3 07:09:47 UTC 2022 stag2_0.2_0.3 2 / 8
+Thu Feb  3 08:07:46 UTC 2022 stag1_0.4_0.3 3 / 8
+Thu Feb  3 09:05:26 UTC 2022 stag2_0.4_0.3 4 / 8
+Thu Feb  3 10:02:58 UTC 2022 stag1_0.5_0.3 5 / 8
+Thu Feb  3 11:00:41 UTC 2022 stag2_0.5_0.3 6 / 8
+Thu Feb  3 11:58:21 UTC 2022 random1 7 / 8
+Thu Feb  3 12:56:30 UTC 2022 random2 8 / 8
+Thu Feb  3 13:54:09 UTC 2022 Iniciando results 8
+Thu Feb  3 13:54:09 UTC 2022 stag1_0.2_0.3 1 / 8
+Thu Feb  3 14:52:17 UTC 2022 stag2_0.2_0.3 2 / 8
+Thu Feb  3 15:50:17 UTC 2022 stag1_0.4_0.3 3 / 8
+Thu Feb  3 15:59:05 UTC 2022 Genetico 100 100 0.6 0.25 - stag1_0.2_0.3
+Thu Feb  3 15:59:55 UTC 2022 stag1_0.2_0.3 1 / 8
+Thu Feb  3 16:57:53 UTC 2022 stag2_0.2_0.3 2 / 8
+Thu Feb  3 17:55:41 UTC 2022 stag1_0.4_0.3 3 / 8
+Thu Feb  3 18:53:47 UTC 2022 stag2_0.4_0.3 4 / 8
+Thu Feb  3 19:51:53 UTC 2022 stag1_0.5_0.3 5 / 8
+Thu Feb  3 20:49:25 UTC 2022 stag2_0.5_0.3 6 / 8
+Thu Feb  3 21:47:08 UTC 2022 random1 7 / 8
+Thu Feb  3 22:44:51 UTC 2022 random2 8 / 8

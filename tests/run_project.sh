@@ -83,7 +83,3 @@ mn -c
 sudo python ./guloso/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
 
 done
-
-
-echo "$(date) Iniciando results 8" >> logs.txt
-sudo ./run_project.sh 8 16 1 60
