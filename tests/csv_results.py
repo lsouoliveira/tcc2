@@ -183,7 +183,7 @@ def get_average_bisection_bw(value_dict, traffics, app):
         complete_list.append(value_dict[traffic]['accumulated_throughput'][app][args.duration] / float(args.duration))
         accumulated_throughput.append(value_dict[traffic]['accumulated_throughput'][app][args.duration])
     # print "accumulated_throughput:", accumulated_throughput
-    for i in xrange(4):
+    for i in xrange(5):
         value_list.append(calculate_average(complete_list[(i * SINGLE_TRAFFIC_COUNT): (i * SINGLE_TRAFFIC_COUNT + SINGLE_TRAFFIC_COUNT)]))
     return value_list
 
@@ -195,7 +195,7 @@ def get_value_list_2(value_dict, traffics, item, app):
     complete_list = []
     for traffic in traffics:
         complete_list.append(value_dict[traffic][item][app])
-    for i in xrange(4):
+    for i in xrange(5):
         value_list.append(calculate_average(complete_list[(i * SINGLE_TRAFFIC_COUNT): (i * SINGLE_TRAFFIC_COUNT + SINGLE_TRAFFIC_COUNT)]))
     return value_list
 
@@ -209,7 +209,7 @@ def get_value_list_3(value_dict, traffics, items, app):
     for traffic in traffics:
         send_list.append(value_dict[traffic][items[0]][app])
         receive_list.append(value_dict[traffic][items[1]][app])
-    for i in xrange(4):
+    for i in xrange(5):
         value_list.append((sum(send_list[(i * SINGLE_TRAFFIC_COUNT): (i * SINGLE_TRAFFIC_COUNT + SINGLE_TRAFFIC_COUNT)]) - sum(receive_list[(i * SINGLE_TRAFFIC_COUNT): (i * SINGLE_TRAFFIC_COUNT + SINGLE_TRAFFIC_COUNT)])) / float(sum(send_list[(i * SINGLE_TRAFFIC_COUNT): (i * SINGLE_TRAFFIC_COUNT + SINGLE_TRAFFIC_COUNT)])))
 
     return value_list
@@ -345,9 +345,9 @@ average_delay = {
     full_bisection_bw = 100.0 * (args.k ** 3 / 4)   # (unit: Mbit/s)
     utmost_throughput = full_bisection_bw * args.duration
     # _traffics = "stag1_0.5_0.3 stag2_0.5_0.3 stag1_0.6_0.2 stag2_0.6_0.2 stag1_0.7_0.2 stag2_0.7_0.2 stag1_0.8_0.1 stag2_0.8_0.1"
-    _traffics = "stag1_0.2_0.3 stag2_0.2_0.3 stag1_0.4_0.3 stag2_0.4_0.3 stag1_0.6_0.2 stag2_0.6_0.2 stag1_0.7_0.2 stag2_0.7_0.2"
+    _traffics = "stag1_0.2_0.3 stag2_0.2_0.3 stag1_0.4_0.3 stag2_0.4_0.3 stag1_0.5_0.3 stag2_0.5_0.3 random1 random1 random2 random2"
     traffics = _traffics.split(' ')
-    traffics_brief = ['stag_0.2_0.3', 'stag_0.4_0.3', 'stag_0.6_0.2', 'stag_0.7_0.2']
+    traffics_brief = ['stag_0.2_0.3', 'stag_0.4_0.3', 'stag_0.5_0.3', 'random1', 'random2']
     throughput = {}
     first_packet_delay = {}
     average_delay = {}
@@ -374,7 +374,7 @@ average_delay = {
         traffic = traffics_brief[traffic_index]
         csv_output = ""
 
-        csv_output += 'Gerações,População,Probabilidade de crossover,Probabilidade de mutação,Taxa de transferência média,Taxa de transferência total normalizada,Taxa de perda de pacotes média,Latência bidirecional média\n'
+        csv_output += 'Gerações,Pop.,Crossover,Mutação,Transf.,Transf. Normalizada,Perda de Pacotes,Lat. Bidirecional\n'
 
         for i in range(len(apps)):
             app = apps[i]
@@ -404,8 +404,6 @@ average_delay = {
         with open('%s/%s.csv' % (args.out_dir, traffic), 'w') as f:
             f.write(csv_output)
             
-
-
     """ PLOT
     # 1. Plot average throughput.
     fig = plt.figure()
