@@ -32,14 +32,17 @@ traffics="stag1_0.2_0.3 stag2_0.2_0.3 stag1_0.4_0.3 stag2_0.4_0.3 stag1_0.5_0.3 
 #traffics="stag_0.2_0.3 stag_0.3_0.3 stag_0.4_0.3 stag_0.5_0.3 stag_0.6_0.2 stag_0.7_0.2 stag_0.8_0.1"
 # Output directory.
 out_dir="./genetico_results/result_${k}"
-sudo rm -f -r out_dir 
-sudo mkdir -p $out_dir
 
-num_elements="0 1 2 3 4 5 6"
-geracoes=(100 100 100 50 50 25 25)
-populacao=(100 25 10 50 25 50 25)
-crossover=(0.6 0.6 0.6 0.6 0.6 0.6 0.6)
-mutacao=(0.25 0.25 0.25 0.25 0.25 0.25 0.25)
+if [ ! -d $out_dir ]
+then
+	sudo mkdir -p $out_dir
+fi
+
+num_elements="0 1 2"
+geracoes=(100 50 25)
+populacao=(50 10 25)
+crossover=(0.8 0.8 0.8)
+mutacao=(0.2 0.1 0.1)
 
 target="genetico"
 
@@ -89,7 +92,4 @@ do
 
 done
 
-echo $(date)
-
-echo "$(date) Iniciando results 4" >> logs.txt
-sudo ./run_project.sh 4 16 1 60
+shutdown -h now
