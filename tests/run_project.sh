@@ -51,7 +51,7 @@ NUM_TRAFFICS=$(expr $NUM_TRAFFICS + $NUM)
 echo "$(date) $traffic $NUM_TRAFFICS / $TOTAL_TRAFFICS" >> logs.txt
 
 # Create iperf peers.
-sudo python ./create_peers.py --k $k --traffic $traffic --fnum $flows_num_per_host
+sudo cp -rf "./iperf_peers_traffics/iperf_peers_${traffic}_${k}.py" ./iperf_peers.py
 sleep 1
 
 # ECMP

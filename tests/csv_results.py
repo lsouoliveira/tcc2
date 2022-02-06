@@ -352,10 +352,10 @@ average_delay = {
     first_packet_delay = {}
     average_delay = {}
 
-    geracoes=[100, 100, 100, 50, 50, 25, 25]
-    populacao=[100, 25, 10, 50, 25, 50, 25]
-    crossover=[0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
-    mutacao=[0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25]
+    geracoes=[100, 100, 100, 50, 50, 25, 25, 100, 50, 25]
+    populacao=[100, 25, 10, 50, 25, 50, 25, 50, 10, 25]
+    crossover=[0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.8, 0.8, 0.8]
+    mutacao=[0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.2, 0.1, 0.1]
 
     apps = ['Genetico_%d_%d_%g_%g' % (geracoes[i], populacao[i], crossover[i], mutacao[i]) for i in range(len(geracoes))] 
 
@@ -390,7 +390,10 @@ average_delay = {
             item = 'average_round_trip_delay'
             latencia = get_value_list_2(average_delay, traffics, item, app)
 
-            csv_output += '%d,%d,%g,%g,%.3f,%.3f,%.5f,%g' % (
+            print('latencia', latencia)
+            print latencia[traffic_index], traffic_index
+
+            csv_output += '%d,%d,%g,%g,%.2k,%.3f,%.5f,%.2f' % (
                     geracoes[i],
                     populacao[i],
                     crossover[i],
@@ -403,177 +406,6 @@ average_delay = {
 
         with open('%s/%s.csv' % (args.out_dir, traffic), 'w') as f:
             f.write(csv_output)
-            
-    """ PLOT
-    # 1. Plot average throughput.
-    fig = plt.figure()
-    fig.set_size_inches(10, 5)
-    num_groups = len(traffics_brief)
-    num_bar = len(apps)
-    EFattree_value_list = get_average_bisection_bw(throughput, traffics, 'EFattree')
-    ECMP_value_list = get_average_bisection_bw(throughput, traffics, 'ECMP')
-    Hedera_value_list = get_average_bisection_bw(throughput, traffics, 'Hedera')
-    PureSDN_value_list = get_average_bisection_bw(throughput, traffics, 'PureSDN')
-    index = np.arange(num_groups) + 0.15
-    bar_width = 0.15
-    plt.bar(index + 0 * bar_width, EFattree_value_list, bar_width, color='r', label='EFattree')
-    plt.bar(index + 1 * bar_width, ECMP_value_list, bar_width, color='b', label='ECMP')
-    plt.bar(index + 2 * bar_width, Hedera_value_list, bar_width, color='y', label='Hedera')
-    plt.bar(index + 3 * bar_width, PureSDN_value_list, bar_width, color='g', label='PureSDN')
-    plt.xticks(index + num_bar / 2.0 * bar_width, traffics_brief, fontsize='large')
-    plt.ylabel('Average Throughput\n(Mbps)', fontsize='x-large')
-    plt.ylim(0, full_bisection_bw)
-    plt.yticks(np.linspace(0, full_bisection_bw, 11), fontsize='large')
-    plt.legend(loc='upper right', ncol=len(apps), fontsize='small')
-    plt.grid(axis='y')
-    plt.tight_layout()
-    plt.savefig(args.out_dir + '/1.average_throughput.png')
-
-    # 2. Plot normalized total throughput.
-    item = 'normalized_total_throughput'
-    fig = plt.figure()
-    fig.set_size_inches(10, 5)
-    num_groups = len(traffics_brief)
-    num_bar = len(apps)
-    EFattree_value_list = get_value_list_2(throughput, traffics, item, 'EFattree')
-    ECMP_value_list = get_value_list_2(throughput, traffics, item, 'ECMP')
-    Hedera_value_list = get_value_list_2(throughput, traffics, item, 'Hedera')
-    PureSDN_value_list = get_value_list_2(throughput, traffics, item, 'PureSDN')
-    index = np.arange(num_groups) + 0.15
-    bar_width = 0.15
-    plt.bar(index + 0 * bar_width, EFattree_value_list, bar_width, color='r', label='EFattree')
-    plt.bar(index + 1 * bar_width, ECMP_value_list, bar_width, color='b', label='ECMP')
-    plt.bar(index + 2 * bar_width, Hedera_value_list, bar_width, color='y', label='Hedera')
-    plt.bar(index + 3 * bar_width, PureSDN_value_list, bar_width, color='g', label='PureSDN')
-    plt.xticks(index + num_bar / 2.0 * bar_width, traffics_brief, fontsize='large')
-    plt.ylabel('Normalized Total Throughput\n', fontsize='x-large')
-    plt.ylim(0, 1)
-    plt.yticks(np.linspace(0, 1, 11), fontsize='large')
-    plt.legend(loc='upper right', ncol=len(apps), fontsize='small')
-    plt.grid(axis='y')
-    plt.tight_layout()
-    plt.savefig(args.out_dir + '/2.normalized_total_throughput.png')
-
-    # 3. Plot average first-packet round-trip delay of delay-sensitive traffic.
-    item = 'average_first_packet_round_trip_delay'
-    fig = plt.figure()
-    fig.set_size_inches(10, 5)
-    num_groups = len(traffics_brief)
-    num_bar = len(apps)
-    EFattree_value_list = get_value_list_2(first_packet_delay, traffics, item, 'EFattree')
-    PureSDN_value_list = get_value_list_2(first_packet_delay, traffics, item, 'PureSDN')
-    Hedera_value_list = get_value_list_2(first_packet_delay, traffics, item, 'Hedera')
-    ECMP_value_list = get_value_list_2(first_packet_delay, traffics, item, 'ECMP')
-    index = np.arange(num_groups) + 0.15
-    bar_width = 0.15
-    plt.bar(index, EFattree_value_list, bar_width, color='r', label='EFattree')
-    plt.bar(index + 1 * bar_width, PureSDN_value_list, bar_width, color='g', label='PureSDN')
-    plt.bar(index + 2 * bar_width, Hedera_value_list, bar_width, color='y', label='Hedera')
-    plt.bar(index + 3 * bar_width, ECMP_value_list, bar_width, color='b', label='ECMP')
-    plt.xticks(index + num_bar / 2.0 * bar_width, traffics_brief, fontsize='large')
-    plt.ylabel('Average First-packet Round-trip Delay\nof Delay-sensitive Traffic\n(ms)', fontsize='large')
-    plt.yticks(fontsize='large')
-    plt.legend(loc='upper right', ncol=len(apps), fontsize='small')
-    plt.grid(axis='y')
-    plt.tight_layout()
-    plt.savefig(args.out_dir + '/3.average_first_packet_round_trip_delay.png')
-
-    # 4. Plot first-packet loss rate of delay-sensitive traffic.
-    items = ['first_packet_total_send', 'first_packet_total_receive']
-    fig = plt.figure()
-    fig.set_size_inches(10, 5)
-    num_groups = len(traffics_brief)
-    num_bar = len(apps)
-    EFattree_value_list = get_value_list_3(first_packet_delay, traffics, items, 'EFattree')
-    PureSDN_value_list = get_value_list_3(first_packet_delay, traffics, items, 'PureSDN')
-    Hedera_value_list = get_value_list_3(first_packet_delay, traffics, items, 'Hedera')
-    ECMP_value_list = get_value_list_3(first_packet_delay, traffics, items, 'ECMP')
-    index = np.arange(num_groups) + 0.15
-    bar_width = 0.15
-    plt.bar(index, EFattree_value_list, bar_width, color='r', label='EFattree')
-    plt.bar(index + 1 * bar_width, PureSDN_value_list, bar_width, color='g', label='PureSDN')
-    plt.bar(index + 2 * bar_width, Hedera_value_list, bar_width, color='y', label='Hedera')
-    plt.bar(index + 3 * bar_width, ECMP_value_list, bar_width, color='b', label='ECMP')
-    plt.xticks(index + num_bar / 2.0 * bar_width, traffics_brief, fontsize='large')
-    plt.ylabel('First-packet Loss Rate of\nDelay-sensitive Traffic\n', fontsize='large')
-    plt.yticks(fontsize='large')
-    plt.legend(loc='upper right', ncol=len(apps), fontsize='small')
-    plt.grid(axis='y')
-    plt.tight_layout()
-    plt.savefig(args.out_dir + '/4.first_packet_loss_rate.png')
-
-    # 5. Plot average packet round-trip delay of delay-sensitive traffic.
-    item = 'average_round_trip_delay'
-    fig = plt.figure()
-    fig.set_size_inches(10, 5)
-    num_groups = len(traffics_brief)
-    num_bar = len(apps)
-    EFattree_value_list = get_value_list_2(average_delay, traffics, item, 'EFattree')
-    PureSDN_value_list = get_value_list_2(average_delay, traffics, item, 'PureSDN')
-    Hedera_value_list = get_value_list_2(average_delay, traffics, item, 'Hedera')
-    ECMP_value_list = get_value_list_2(average_delay, traffics, item, 'ECMP')
-    index = np.arange(num_groups) + 0.15
-    bar_width = 0.15
-    plt.bar(index, EFattree_value_list, bar_width, color='r', label='EFattree')
-    plt.bar(index + 1 * bar_width, PureSDN_value_list, bar_width, color='g', label='PureSDN')
-    plt.bar(index + 2 * bar_width, Hedera_value_list, bar_width, color='y', label='Hedera')
-    plt.bar(index + 3 * bar_width, ECMP_value_list, bar_width, color='b', label='ECMP')
-    plt.xticks(index + num_bar / 2.0 * bar_width, traffics_brief, fontsize='large')
-    plt.ylabel('Average Packet Round-trip Delay of\nDelay-sensitive Traffic\n(ms)', fontsize='large')
-    plt.yticks(fontsize='large')
-    plt.legend(loc='upper right', ncol=len(apps), fontsize='small')
-    plt.grid(axis='y')
-    plt.tight_layout()
-    plt.savefig(args.out_dir + '/5.average_round_trip_delay.png')
-
-    # 6. Plot packet loss rate of delay-sensitive traffic.
-    items = ['total_send', 'total_receive']
-    fig = plt.figure()
-    fig.set_size_inches(10, 5)
-    num_groups = len(traffics_brief)
-    num_bar = len(apps)
-    EFattree_value_list = get_value_list_3(average_delay, traffics, items, 'EFattree')
-    PureSDN_value_list = get_value_list_3(average_delay, traffics, items, 'PureSDN')
-    Hedera_value_list = get_value_list_3(average_delay, traffics, items, 'Hedera')
-    ECMP_value_list = get_value_list_3(average_delay, traffics, items, 'ECMP')
-    index = np.arange(num_groups) + 0.15
-    bar_width = 0.15
-    plt.bar(index, EFattree_value_list, bar_width, color='r', label='EFattree')
-    plt.bar(index + 1 * bar_width, PureSDN_value_list, bar_width, color='g', label='PureSDN')
-    plt.bar(index + 2 * bar_width, Hedera_value_list, bar_width, color='y', label='Hedera')
-    plt.bar(index + 3 * bar_width, ECMP_value_list, bar_width, color='b', label='ECMP')
-    plt.xticks(index + num_bar / 2.0 * bar_width, traffics_brief, fontsize='large')
-    plt.ylabel('Packet Loss Rate of\nDelay-sensitive Traffic\n', fontsize='large')
-    plt.yticks(fontsize='large')
-    plt.legend(loc='upper right', ncol=len(apps), fontsize='small')
-    plt.grid(axis='y')
-    plt.tight_layout()
-    plt.savefig(args.out_dir + '/6.packet_loss_rate.png')
-
-    # 7. Plot mean deviation of round-trip delay of delay-sensitive traffic.
-    item = 'mean_deviation_of_round_trip_delay'
-    fig = plt.figure()
-    fig.set_size_inches(10, 5)
-    num_groups = len(traffics_brief)
-    num_bar = len(apps)
-    EFattree_value_list = get_value_list_2(average_delay, traffics, item, 'EFattree')
-    PureSDN_value_list = get_value_list_2(average_delay, traffics, item, 'PureSDN')
-    Hedera_value_list = get_value_list_2(average_delay, traffics, item, 'Hedera')
-    ECMP_value_list = get_value_list_2(average_delay, traffics, item, 'ECMP')
-    index = np.arange(num_groups) + 0.15
-    bar_width = 0.15
-    plt.bar(index, EFattree_value_list, bar_width, color='r', label='EFattree')
-    plt.bar(index + 1 * bar_width, PureSDN_value_list, bar_width, color='g', label='PureSDN')
-    plt.bar(index + 2 * bar_width, Hedera_value_list, bar_width, color='y', label='Hedera')
-    plt.bar(index + 3 * bar_width, ECMP_value_list, bar_width, color='b', label='ECMP')
-    plt.xticks(index + num_bar / 2.0 * bar_width, traffics_brief, fontsize='large')
-    plt.ylabel('Mean Deviation of Round-trip Delay\nof Delay-sensitive Traffic\n(ms)', fontsize='large')
-    plt.yticks(fontsize='large')
-    plt.legend(loc='upper right', ncol=len(apps), fontsize='small')
-    plt.grid(axis='y')
-    plt.tight_layout()
-    plt.savefig(args.out_dir + '/7.mean_deviation_of_round_trip_delay.png')
-    """
 
 
 if __name__ == '__main__':

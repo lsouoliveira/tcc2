@@ -189,3 +189,4 @@ Sat Feb  5 21:20:41 UTC 2022 Genetico 25 25 0.8 0.1 - stag1_0.5_0.3
 Sat Feb  5 21:43:50 UTC 2022 Genetico 25 25 0.8 0.1 - stag2_0.5_0.3
 Sat Feb  5 22:07:08 UTC 2022 Genetico 25 25 0.8 0.1 - random1
 Sat Feb  5 22:30:21 UTC 2022 Genetico 25 25 0.8 0.1 - random2
+Sun 06 Feb 2022 04:46:39 PM -03 stag1_0.2_0.3 1 / 8
