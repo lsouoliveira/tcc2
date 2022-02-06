@@ -38,11 +38,11 @@ then
 	sudo mkdir -p $out_dir
 fi
 
-num_elements="0 1 2"
-geracoes=(100 50 25)
-populacao=(50 10 25)
-crossover=(0.8 0.8 0.8)
-mutacao=(0.2 0.1 0.1)
+num_elements="0 1 2 3 4 5 6 7 8 9"
+geracoes=(100 100 100 50 50 25 25 100 50 25)
+populacao=(100 25 10 50 25 50 25 50 10 25)
+crossover=(0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.8 0.8 0.8)
+mutacao=(0.25 0.25 0.25 0.25 0.25 0.25 0.25 0.2 0.1 0.1)
 
 target="genetico"
 
