@@ -74,6 +74,8 @@ do
     NUM_TRAFFICS=$(expr $NUM_TRAFFICS + $NUM)
 
     # Create iperf peers.
+		sudo rm -f ./iperf_peers.pyc
+
     sudo cp -rf "./iperf_peers_traffics/iperf_peers_${traffic}_${k}.py" ./iperf_peers.py
     sleep 1
 
@@ -91,5 +93,3 @@ do
   done
 
 done
-
-shutdown -h now
