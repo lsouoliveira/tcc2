@@ -93,5 +93,3 @@ do
   done
 
 done
-
-shutdown -h now
