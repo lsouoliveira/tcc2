@@ -15,7 +15,7 @@ sudo python2 get-pip.py
 2. Install the required python packages
 
 ```bash
-sudo pip2 install mininet networkx numpy matplotlib ryu==4.3
+sudo pip2 install mininet networkx numpy matplotlib ryu==4.3 pyeasyga
 ```
 3. Install the following package
 
