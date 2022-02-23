@@ -287,12 +287,6 @@ class NetworkMonitor(app_manager.RyuApp):
         Args:
             flow (Flow): the flow that will be routed
         '''
-        demands = [f for f in flows if f.demand >= 0.1]
-        print(len(demands))
-        print([((f.src, f.dst), f.size) for f in demands])
-
-        return
-
         for flow in flows:
             if flow.demand < 0.1:
                 continue
