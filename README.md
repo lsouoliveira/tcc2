@@ -51,6 +51,8 @@ Change `MAX_CAPACITY` to match the max capacity of link in the target Fat-Tree
 
 > For 100 Mbits links, set MAX_CAPACITY to 100000
 
+> The genetic algorithm has a `max_capacity` parameter that needs to match these one.
+
 ### 3. Update `fattree.py`
 
 - tests/Hedera/fattree.py     
