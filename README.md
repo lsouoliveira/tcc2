@@ -47,7 +47,7 @@ Where:
 - tests/guloso/setting.py
 - tests/genetico/setting.py
 
-Change `MAX_CAPACITY` to match the max capacity of link in the target Fat-tree
+Change `MAX_CAPACITY` to match the max capacity of link in the target Fat-Tree
 
 > For 100 Mbits links, set MAX_CAPACITY to 100000
 
@@ -63,7 +63,7 @@ In the method `run_experiment` change the following method parameters:
 - bw_a2e
 - bw_e2h
 
-These parameters represent the capacity of link of the target Fat-tree.
+These parameters represent the capacity of link of the target Fat-Tree.
 
 > To create links with 100 Mbits of capacity, set the parameters as 100
 4
