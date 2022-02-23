@@ -56,18 +56,18 @@ sudo cp -rf "./iperf_peers_traffics/iperf_peers_${traffic}_${k}.py" ./iperf_peer
 sleep 1
 
 # ECMP
-echo "ECMP"
-dir=$out_dir/$traffic/ECMP
-mkdir -p $dir
-mn -c
-sudo python ./ecmp/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
+# echo "ECMP"
+# dir=$out_dir/$traffic/ECMP
+# mkdir -p $dir
+# mn -c
+# sudo python ./ecmp/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
 
 # Hedera
-echo "Hedera"
-dir=$out_dir/$traffic/Hedera
-mkdir -p $dir
-mn -c
-sudo python ./Hedera/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
+#echo "Hedera"
+#dir=$out_dir/$traffic/Hedera
+#mkdir -p $dir
+#mn -c
+#sudo python ./Hedera/fattree.py --k $k --duration $duration --dir $dir --cpu $cpu
 
 #echo "GENETICO"
 # Genetico

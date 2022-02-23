@@ -183,7 +183,7 @@ def get_average_bisection_bw(value_dict, traffics, app):
         complete_list.append(value_dict[traffic]['accumulated_throughput'][app][args.duration] / float(args.duration))
         accumulated_throughput.append(value_dict[traffic]['accumulated_throughput'][app][args.duration])
     # print "accumulated_throughput:", accumulated_throughput
-    for i in xrange(4):
+    for i in xrange(5):
         value_list.append(calculate_average(complete_list[(i * SINGLE_TRAFFIC_COUNT): (i * SINGLE_TRAFFIC_COUNT + SINGLE_TRAFFIC_COUNT)]))
     return value_list
 
@@ -195,7 +195,7 @@ def get_value_list_2(value_dict, traffics, item, app):
     complete_list = []
     for traffic in traffics:
         complete_list.append(value_dict[traffic][item][app])
-    for i in xrange(4):
+    for i in xrange(5):
         value_list.append(calculate_average(complete_list[(i * SINGLE_TRAFFIC_COUNT): (i * SINGLE_TRAFFIC_COUNT + SINGLE_TRAFFIC_COUNT)]))
     return value_list
 
@@ -209,7 +209,7 @@ def get_value_list_3(value_dict, traffics, items, app):
     for traffic in traffics:
         send_list.append(value_dict[traffic][items[0]][app])
         receive_list.append(value_dict[traffic][items[1]][app])
-    for i in xrange(4):
+    for i in xrange(5):
         value_list.append((sum(send_list[(i * SINGLE_TRAFFIC_COUNT): (i * SINGLE_TRAFFIC_COUNT + SINGLE_TRAFFIC_COUNT)]) - sum(receive_list[(i * SINGLE_TRAFFIC_COUNT): (i * SINGLE_TRAFFIC_COUNT + SINGLE_TRAFFIC_COUNT)])) / float(sum(send_list[(i * SINGLE_TRAFFIC_COUNT): (i * SINGLE_TRAFFIC_COUNT + SINGLE_TRAFFIC_COUNT)])))
 
     return value_list
@@ -283,7 +283,7 @@ def get_delay(delay, traffic, keys, app, input_file):
 
     return delay
 
-def plot_result(title, filepath, plt_values, apps, traffics, ylim=None, colors=['r', 'g', 'y', 'c']):
+def plot_result(title, filepath, plt_values, apps, traffics, ylim=None, colors=['b', 'g', 'r', 'c']):
     fig = plt.figure()
     fig.set_size_inches(10, 5)
     num_groups = len(traffics)
@@ -372,14 +372,14 @@ average_delay = {
     full_bisection_bw = 100.0 * (args.k ** 3 / 4)   # (unit: Mbit/s)
     utmost_throughput = full_bisection_bw * args.duration
     # _traffics = "stag1_0.5_0.3 stag2_0.5_0.3 stag1_0.6_0.2 stag2_0.6_0.2 stag1_0.7_0.2 stag2_0.7_0.2 stag1_0.8_0.1 stag2_0.8_0.1"
-    _traffics = "stag1_0.2_0.3 stag2_0.2_0.3 stag1_0.4_0.3 stag2_0.4_0.3 stag1_0.6_0.2 stag2_0.6_0.2 stag1_0.7_0.2 stag2_0.7_0.2"
+    _traffics = "stag1_0.2_0.3 stag2_0.2_0.3 stag1_0.4_0.3 stag2_0.4_0.3 stag1_0.5_0.3 stag2_0.5_0.3 random1_1 random1_2 random2_1 random2_2"
     traffics = _traffics.split(' ')
-    traffics_brief = ['stag_0.2_0.3', 'stag_0.4_0.3', 'stag_0.6_0.2', 'stag_0.7_0.2']
+    traffics_brief = ['stag_0.2_0.3', 'stag_0.4_0.3', 'stag_0.5_0.3', 'random1', 'random2']
     throughput = {}
     first_packet_delay = {}
     average_delay = {}
 
-    apps = ['ECMP', 'Hedera', 'Guloso']
+    apps = ['ECMP', 'Hedera', 'Guloso', 'Genetico']
 
     for traffic in traffics:
         for app in apps:
@@ -391,15 +391,15 @@ average_delay = {
             first_packet_delay = get_delay(first_packet_delay, traffic, keys1, app, first_packet_file)
             successive_packets_file = args.out_dir + '/%s/%s/successive_packets.txt' % (traffic, app)
             average_delay = get_delay(average_delay, traffic, keys2, app, successive_packets_file)
-            
+
     # 1. Plot average throughput.
     plt_values = [
         get_average_bisection_bw(throughput, traffics, app) for app in apps
     ]
 
     plot_result(
-        u'Taxa de Transferência Média\n(Mbps)',
-        'average_throughput',
+        u'Taxa de Transferência \n(Mbps)',
+        'average_throughput_%d' % args.k,
         plt_values,
         apps,
         traffics_brief,
@@ -415,8 +415,8 @@ average_delay = {
     ]
 
     plot_result(
-        u'Taxa de Transferência Total Normalizada',
-        'average_throughput_normalized',
+        u'Taxa de Transferência Normalizada',
+        'average_throughput_normalized_%d' % args.k,
         plt_values,
         apps,
         traffics_brief,
@@ -432,8 +432,8 @@ average_delay = {
     ]
 
     plot_result(
-        u'Taxa de Perda de Pacotes Média',
-        'packet_loss',
+        u'Taxa de Perda de Pacotes',
+        'packet_loss_%d' % args.k,
         plt_values,
         apps,
         traffics_brief
@@ -448,8 +448,8 @@ average_delay = {
     ]
 
     plot_result(
-        u'Latência Bidirecional Média',
-        'delay',
+        u'Latência Bidirecional',
+        'delay_%d' % args.k,
         plt_values,
         apps,
         traffics_brief

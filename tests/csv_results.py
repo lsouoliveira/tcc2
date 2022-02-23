@@ -345,7 +345,7 @@ average_delay = {
     full_bisection_bw = 100.0 * (args.k ** 3 / 4)   # (unit: Mbit/s)
     utmost_throughput = full_bisection_bw * args.duration
     # _traffics = "stag1_0.5_0.3 stag2_0.5_0.3 stag1_0.6_0.2 stag2_0.6_0.2 stag1_0.7_0.2 stag2_0.7_0.2 stag1_0.8_0.1 stag2_0.8_0.1"
-    _traffics = "stag1_0.2_0.3 stag2_0.2_0.3 stag1_0.4_0.3 stag2_0.4_0.3 stag1_0.5_0.3 stag2_0.5_0.3 random1 random1 random2 random2"
+    _traffics = "stag1_0.2_0.3 stag2_0.2_0.3 stag1_0.4_0.3 stag2_0.4_0.3 stag1_0.5_0.3 stag2_0.5_0.3 random1_1 random1_2 random2_1 random2_2"
     traffics = _traffics.split(' ')
     traffics_brief = ['stag_0.2_0.3', 'stag_0.4_0.3', 'stag_0.5_0.3', 'random1', 'random2']
     throughput = {}
@@ -390,10 +390,7 @@ average_delay = {
             item = 'average_round_trip_delay'
             latencia = get_value_list_2(average_delay, traffics, item, app)
 
-            print('latencia', latencia)
-            print latencia[traffic_index], traffic_index
-
-            csv_output += '%d,%d,%g,%g,%.2k,%.3f,%.5f,%.2f' % (
+            csv_output += '%d,%d,%g,%g,%.2f,%.3f,%.5f,%.2f' % (
                     geracoes[i],
                     populacao[i],
                     crossover[i],
