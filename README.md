@@ -53,7 +53,7 @@ Change `MAX_CAPACITY` to match the max capacity of link in the target Fat-tree
 
 ### 3. Update `fattree.py`
 
-- tests/Hedera/fattree.py
+- tests/Hedera/fattree.py     
 - tests/guloso/fattree.py
 - tests/genetico/fattree.py
 
@@ -87,7 +87,9 @@ Change the following variables as needed. They represent the parameters that wil
 
 ### 5. Generate the peers
 
-Update the file `./iperf_peers_traffics`. Change the variable `traffics` and choose which traffic patterns to use, it must be the same as the ones from `run_project.sh` and `run_genetic_for_diff_params.sh`. Then run the following command:
+A traffic pattern consists in a list of tuples with hosts that represent possible origins and destinations for each flow. Iperf will use these peers lists to generate traffic during the experiments. To create the peers list for each traffic pattern do the following:
+
+Access the folder `./iperf_peers_traffics`. Update the file `./iperf_peers_traffics`. Change the variable `traffics` and choose which traffic patterns to use, it must be the same as the ones from `run_project.sh` and `run_genetic_for_diff_params.sh`. Then run the following command:
 
 ```bash
 ./generate_peers k
